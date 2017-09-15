@@ -16,9 +16,9 @@ layout(std140, binding = 1) uniform transformUBO
 void main()
 {
     mat4 scaleModel = model;
-    scaleModel[0][0] += 0.02f;
-    scaleModel[1][1] += 0.02f;
-    scaleModel[2][2] += 0.02f;
+    scaleModel[0][0] += 0.05f;
+    scaleModel[1][1] += 0.05f;
+    scaleModel[2][2] += 0.05f;
 
     gl_Position = projection * view * scaleModel * vec4(vPosition, 1.0f);
 }

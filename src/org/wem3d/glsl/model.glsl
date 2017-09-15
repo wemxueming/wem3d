@@ -224,13 +224,6 @@ vec4 brdf(Material m, Ray ray, vec3 V, mat3 NBT)
     vec3 L = ray.direction;
     float attenuation = ray.attenuation;
 
-        if(m.height != -1)
-        {
-            float shadow = parallaxSoftShadowMultiplier(heightMap, m.wrap, normalize(L * NBT), m.coord, m.height-0.05f, m.heightScale);
-            //color = color * pow(shadow, 4);
-            R = R * pow(shadow, 6);
-        }
-
     vec3 F0 = vec3(0.04);
     F0 = mix(F0, albedo, metallic);
     // reflectance equation
@@ -261,7 +254,12 @@ vec4 brdf(Material m, Ray ray, vec3 V, mat3 NBT)
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
 
-
+    if(m.height != -1)
+    {
+        float shadow = parallaxSoftShadowMultiplier(heightMap, m.wrap, normalize(L * NBT), m.coord, m.height-0.05f, m.heightScale);
+        color = color * pow(shadow, 4);
+        //R = R * pow(shadow, 6);
+    }
 
     return vec4(color, 1);
 }

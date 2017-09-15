@@ -8,12 +8,19 @@ public class Scene
 	private Map<Integer, Model> modelMap;
 	private Map<Integer, Light> lightMap;
 	private Map<Integer, Control> controlMap;
+	private Skybox[] skyboxes;
 
 	public Scene()
 	{
 		modelMap = new HashMap<Integer, Model>();
 		lightMap = new HashMap<Integer, Light>();
 		controlMap = new HashMap<Integer, Control>();
+		skyboxes = new Skybox[1];
+	}
+
+	public void add(Skybox skybox)
+	{
+		skyboxes[0] = skybox;
 	}
 
 	public void add(Model model)
@@ -59,5 +66,15 @@ public class Scene
 	public void setControlMap(Map<Integer, Control> controlMap)
 	{
 		this.controlMap = controlMap;
+	}
+
+	public Skybox[] getSkyboxes()
+	{
+		return skyboxes;
+	}
+
+	public void setSkyboxes(Skybox[] skyboxes)
+	{
+		this.skyboxes = skyboxes;
 	}
 }

@@ -21,6 +21,8 @@ public class Renderer
 
 	private int modelBorderProgram;
 
+	private int skyboxProgram;
+
 	private int cameraUbo;
 	private int transformUbo;
 	private int lightsUbo;
@@ -65,6 +67,11 @@ public class Renderer
 		vert = OGL.createShader("src/org/wem3d/glsl/border.vert", GL20.GL_VERTEX_SHADER);
 		frag = OGL.createShader("src/org/wem3d/glsl/border.frag", GL20.GL_FRAGMENT_SHADER);
 		OGL.buildProgram(modelBorderProgram, vert, frag);
+
+		skyboxProgram = OGL.createProgram();
+		vert = OGL.createShader("src/org/wem3d/glsl/skybox.vert", GL20.GL_VERTEX_SHADER);
+		frag = OGL.createShader("src/org/wem3d/glsl/skybox.frag", GL20.GL_FRAGMENT_SHADER);
+		OGL.buildProgram(skyboxProgram, vert, frag);
 
 		frameProgram = OGL.createProgram();
 		vert = OGL.createShader("src/org/wem3d/glsl/frame.vert", GL20.GL_VERTEX_SHADER);
@@ -149,6 +156,24 @@ public class Renderer
 
 		//关闭背面剔除
 		GL11.glDisable(GL11.GL_CULL_FACE);
+	}
+
+	protected void updateSkyBoxProgram()
+	{
+		for (Skybox skybox : scene.getSkyboxes())
+		{
+			GL11.glDepthMask(false);
+			GL20.glUseProgram(skyboxProgram);
+			OGL.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, skybox.getCubeMap(), 0);
+			GL30.glBindVertexArray(skybox.getVao());
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, skybox.getEbo());
+			GL11.glDrawElements(GL11.GL_TRIANGLES, skybox.getCount(), GL11.GL_UNSIGNED_INT, 0);
+			GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
+			GL30.glBindVertexArray(0);
+			OGL.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, skybox.getCubeMap());
+			GL20.glUseProgram(0);
+			GL11.glDepthMask(true);
+		}
 	}
 
 	protected void updateFrameProgram()

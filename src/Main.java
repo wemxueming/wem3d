@@ -28,7 +28,7 @@ public class Main
 		plan.getDefaultMod().get("face").getMaterial().setNormalMap(loader.loadTexture("asset/test/bricks2_normal.jpg", false));
 		plan.getDefaultMod().get("face").getMaterial().setHeightMap(loader.loadTexture("asset/test/bricks2_disp.jpg", false));
 		plan.getDefaultMod().get("face").getMaterial().setWrap(new Vector2f(2,2));
-		plan.getDefaultMod().get("face").getMaterial().setHeightScale(0.05f);
+		plan.getDefaultMod().get("face").getMaterial().setHeightScale(0.04f);
 		Object3D plan1 = new Object3D();
 		plan1.setScale(new Vector3f(10));
 		plan1.setModel(plan);
@@ -65,7 +65,7 @@ public class Main
 		cube1.setModel(cube);
 		scene.add(cube);
 
-		DirectionLight directionLight = new DirectionLight(new Vector3f(0, -0.6f,1));
+		DirectionLight directionLight = new DirectionLight();
 		scene.add(directionLight);
 
 		engine.run();
